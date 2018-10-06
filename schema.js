@@ -4,12 +4,31 @@ var GraphQLInt = require("graphql").GraphQLInt;
 var GraphQLSchema = require("graphql").GraphQLSchema;
 var axios = require("axios");
 
+var CompanyType = new GraphQLObjectType({
+  name: "Company",
+  fields: {
+    id: { type: GraphQLString },
+    name: { type: GraphQLString },
+    description: { type: GraphQLString }
+  }
+});
+
 var UserType = new GraphQLObjectType({
   name: "User",
   fields: {
     id: { type: GraphQLString },
     firstName: { type: GraphQLString },
-    age: { type: GraphQLInt }
+    age: { type: GraphQLInt },
+    company: {
+      type: CompanyType,
+      resolve: function(parentValue, args) {
+        return axios
+          .get("http://localhost:3000/companies/" + parentValue.companyId)
+          .then(function(res) {
+            return res.data;
+          });
+      }
+    }
   }
 });
 
