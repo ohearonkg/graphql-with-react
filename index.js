@@ -7,8 +7,8 @@ var app = express();
 app.use(
   "/graphql",
   graphql({
-    graphiql: true,
-    schema: schema
+    schema: schema,
+    graphiql: true
   })
 );
 
