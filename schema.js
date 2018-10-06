@@ -3,22 +3,6 @@ var GraphQLString = require("graphql").GraphQLString;
 var GraphQLInt = require("graphql").GraphQLInt;
 var GraphQLSchema = require("graphql").GraphQLSchema;
 
-/**
- * Temporary Hardcoded List of Users
- */
-var users = [
-  {
-    id: "1",
-    firstName: "Kevin",
-    age: 25
-  },
-  {
-    id: "2",
-    firstName: "Sarah",
-    age: 26
-  }
-];
-
 var UserType = new GraphQLObjectType({
   name: "User",
   fields: {
