@@ -109,6 +109,22 @@ var mutation = new GraphQLObjectType({
             return res.data;
           });
       }
+    },
+    updateUser: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+        firstName: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        companyId: { type: GraphQLInt }
+      },
+      resolve: function(parentValue, args) {
+        return axios
+          .patch("http://localhost:3000/users/" + args.id, args)
+          .then(function(res) {
+            return res.data;
+          });
+      }
     }
   }
 });
