@@ -96,6 +96,19 @@ var mutation = new GraphQLObjectType({
             return res.data;
           });
       }
+    },
+    deleteUser: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) }
+      },
+      resolve: function(parentValue, args) {
+        return axios
+          .delete("http://localhost:3000/users/" + args.id)
+          .then(function(res) {
+            return res.data;
+          });
+      }
     }
   }
 });
