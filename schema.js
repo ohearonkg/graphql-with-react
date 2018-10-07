@@ -3,6 +3,7 @@ var GraphQLString = require("graphql").GraphQLString;
 var GraphQLInt = require("graphql").GraphQLInt;
 var GraphQLSchema = require("graphql").GraphQLSchema;
 var GraphQLList = require("graphql").GraphQLList;
+var GraphQLNonNull = require("graphql").GraphQLNonNull;
 var axios = require("axios");
 
 var CompanyType = new GraphQLObjectType({
@@ -75,6 +76,31 @@ var RootQuery = new GraphQLObjectType({
   }
 });
 
+var mutation = new GraphQLObjectType({
+  name: "Mutation",
+  fields: {
+    addUser: {
+      type: UserType,
+      args: {
+        firstName: { type: GraphQLNonNull(GraphQLString) },
+        age: { type: GraphQLNonNull(GraphQLInt) },
+        companyId: { type: GraphQLInt }
+      },
+      resolve: function(parentValue, args) {
+        return axios
+          .post("http://localhost:3000/users", {
+            firstName: args.firstName,
+            age: args.age
+          })
+          .then(function(res) {
+            return res.data;
+          });
+      }
+    }
+  }
+});
+
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: mutation
 });
